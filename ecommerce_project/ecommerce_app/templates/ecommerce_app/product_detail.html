@@ -1,0 +1,34 @@
+{% extends "ecommerce_app/base.html" %}
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+    <div class="left">
+        {% if product.images.first %}
+            <img src="{{ product.images.first.image.url }}" class="big-img">
+        {% else %}
+            <img src="https://via.placeholder.com/500" class="big-img">
+        {% endif %}
+    </div>
+
+    <div class="right">
+        <h2>{{ product.title }}</h2>
+        <p class="price">₹{{ product.price }}</p>
+        <p>{{ product.description }}</p>
+
+        <!-- Add to cart -->
+        <form action="/api/cart/add/" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <button class="btn">Add to Cart</button>
+        </form>
+
+        <!-- Wishlist -->
+        <form action="/api/wishlist/toggle/" method="POST" class="mt-1">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <button class="btn-outline">❤ Wishlist</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

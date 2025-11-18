@@ -1,0 +1,23 @@
+{% extends "ecommerce_app/base.html" %}
+{% block title %}Wishlist{% endblock %}
+
+{% block content %}
+<h2>My Wishlist</h2>
+
+<div class="grid">
+    {% for product in products %}
+    <div class="card">
+        {% if product.images.first %}
+        <img src="{{ product.images.first.image.url }}" class="product-img">
+        {% else %}
+        <img src="https://via.placeholder.com/300" class="product-img">
+        {% endif %}
+
+        <h3>{{ product.title }}</h3>
+        <p>₹{{ product.price }}</p>
+        <a href="/product/{{ product.slug }}/" class="btn">View</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "ecommerce_app/base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<h2>Checkout</h2>
+
+{% if addresses %}
+
+<form action="/api/checkout/" method="POST">
+    {% csrf_token %}
+
+    <label>Select Address</label>
+    <select name="address_id" class="input">
+        {% for addr in addresses %}
+        <option value="{{ addr.id }}">
+            {{ addr.full_name }} - {{ addr.city }} ({{ addr.postal_code }})
+        </option>
+        {% endfor %}
+    </select>
+
+    <button class="btn mt-1">Place Order</button>
+</form>
+
+{% else %}
+<p>You have no saved addresses.</p>
+{% endif %}
+
+{% endblock %}

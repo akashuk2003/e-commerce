@@ -1,0 +1,41 @@
+{% extends "ecommerce_app/base.html" %}
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<h2>Your Cart</h2>
+
+{% if items %}
+<table class="table">
+    <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th></th>
+    </tr>
+
+    {% for item in items %}
+    <tr>
+        <td>{{ item.product.title }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>₹{{ item.product.price }}</td>
+        <td>₹{{ item.subtotal }}</td>
+
+        <td>
+            <form action="/api/cart/remove/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" value="{{ item.id }}">
+                <button class="btn-danger">Remove</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p class="total">Total: ₹{{ cart.subtotal }}</p>
+
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+
+{% endblock %}
